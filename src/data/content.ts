@@ -1,0 +1,73 @@
+import type { Differentiator, ProcessStep } from "./types";
+
+/**
+ * Editorial copy shared across pages. Written from Gourab's verified
+ * positioning ("Your Vision. Our Expertise."), its four disciplines and its
+ * licensing — no statistics, awards or claims beyond the supplied materials.
+ */
+
+/** Words wrapped in *asterisks* are set in the italic serif accent */
+export const brandStatement =
+  "Every space begins as someone's *vision.* Gourab brings the technical *expertise* to build it, fit it out, finish it and keep it performing — one Dubai company, four disciplines, a single standard of work.";
+
+export const approach: ProcessStep[] = [
+  {
+    index: "01",
+    title: "Brief",
+    body: "We start with your vision — requirements, site, budget and timeline — understood properly before anything is priced.",
+  },
+  {
+    index: "02",
+    title: "Plan",
+    body: "Scope, programme and specification are set out clearly, so every decision on site has a reference point.",
+  },
+  {
+    index: "03",
+    title: "Build",
+    body: "Construction, fit-out and interior works carried out with technical discipline and coordinated trades.",
+  },
+  {
+    index: "04",
+    title: "Handover",
+    body: "Finishing, snagging and a clean handover of a space that is ready to use from day one.",
+  },
+  {
+    index: "05",
+    title: "Maintain",
+    body: "Ongoing maintenance that keeps what we deliver performing long after the keys change hands.",
+  },
+];
+
+export const differentiators: Differentiator[] = [
+  {
+    title: "One partner",
+    body: "Construction, fit-out, interiors and maintenance under one licensed company — fewer handoffs and a single point of accountability.",
+  },
+  {
+    title: "Precision",
+    body: "Technical services is in our name. Work is planned, measured and checked — not improvised on site.",
+  },
+  {
+    title: "Beyond handover",
+    body: "Because we also maintain what we deliver, we build with the long term in mind.",
+  },
+  {
+    title: "Dubai-licensed",
+    body: "Licensed by Dubai's Department of Economy and Tourism and registered with the Dubai Chamber.",
+  },
+  {
+    title: "Two countries",
+    body: "Headquartered in Dubai with an office in West Bengal, India — where our group also operates a government-registered recruiting agency.",
+  },
+];
+
+export const promise = {
+  vision: {
+    label: "Your vision",
+    body: "You bring the ambition — a home, a workplace, a commercial space. We listen first, and make sure we understand what success looks like to you.",
+  },
+  expertise: {
+    label: "Our expertise",
+    body: "We bring the technical discipline to deliver it — planned clearly, built carefully, finished properly and maintained for the long term.",
+  },
+};
