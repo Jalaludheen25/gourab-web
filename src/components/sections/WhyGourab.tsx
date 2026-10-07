@@ -3,16 +3,15 @@
 import { useRef } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { differentiators } from "@/data/content";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useLazyGsap } from "@/lib/gsap-lazy";
 import { whenNearViewport } from "@/lib/hooks";
 
 /** Differentiators as oversized statements, not icon cards */
 export function WhyGourab({ index = "05" }: { index?: string }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  useLazyGsap(
+    ({ gsap }) => {
       const stops = gsap.utils.toArray<HTMLElement>("[data-why-row]").map((row) => {
         const title = row.querySelector("[data-why-title]");
         const fades = row.querySelectorAll("[data-why-fade]");
@@ -25,7 +24,8 @@ export function WhyGourab({ index = "05" }: { index?: string }) {
       });
       return () => stops.forEach((stop) => stop());
     },
-    { scope: root },
+    root,
+    { lazy: true },
   );
 
   return (

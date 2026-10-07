@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ButtonLink } from "@/components/ui/Button";
 import { services } from "@/data/services";
 import { site } from "@/data/site";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { loadGsap, scheduleScrollRefresh } from "@/lib/gsap-lazy";
 import { useIntroDone } from "@/lib/intro";
 import { HeroVisual } from "./HeroVisual";
 
@@ -13,42 +13,43 @@ export function Hero() {
   const root = useRef<HTMLElement>(null);
   const introDone = useIntroDone();
 
-  // Entrance — desktop only; phones render the composition statically
-  useGSAP(
-    () => {
-      if (!introDone) return;
-      const desktop = window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches;
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const q = gsap.utils.selector(root);
-      if (!desktop || reduced) {
-        gsap.set(q("[data-intro]"), { autoAlpha: 1 });
-        return;
-      }
+  // Desktop-only motion. Phones (and reduced motion) render the composition
+  // statically and never download GSAP for the hero.
+  useEffect(() => {
+    if (!introDone) return;
+    if (!window.matchMedia("(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
-      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
-      tl.set(q("[data-intro]"), { autoAlpha: 1 })
-        .from(q("[data-hero-line]"), { yPercent: 115, rotate: 2, duration: 1.6, stagger: 0.13 }, 0.05)
-        .from(q("[data-hero-eyebrow]"), { autoAlpha: 0, y: 14, duration: 1 }, 0.2)
-        .from(q("[data-hero-datum]"), { scaleX: 0, duration: 1.8, ease: "expo.inOut" }, 0.35)
-        .from(q("[data-hero-fade]"), { autoAlpha: 0, y: 26, duration: 1.3, stagger: 0.08 }, 0.6)
-        .from(q("[data-hero-meta]"), { autoAlpha: 0, y: 12, duration: 1, stagger: 0.05 }, 0.85);
-    },
-    { scope: root, dependencies: [introDone] },
-  );
+    let cancelled = false;
+    let ctx: { revert: () => void } | undefined;
+    loadGsap().then(({ gsap }) => {
+      if (cancelled || !root.current) return;
+      ctx = gsap.context(() => {
+        // Entrance
+        gsap
+          .timeline({ defaults: { ease: "expo.out" } })
+          .set("[data-intro]", { autoAlpha: 1 })
+          .from("[data-hero-line]", { yPercent: 115, rotate: 2, duration: 1.6, stagger: 0.13 }, 0.05)
+          .from("[data-hero-eyebrow]", { autoAlpha: 0, y: 14, duration: 1 }, 0.2)
+          .from("[data-hero-datum]", { scaleX: 0, duration: 1.8, ease: "expo.inOut" }, 0.35)
+          .from("[data-hero-fade]", { autoAlpha: 0, y: 26, duration: 1.3, stagger: 0.08 }, 0.6)
+          .from("[data-hero-meta]", { autoAlpha: 0, y: 12, duration: 1, stagger: 0.05 }, 0.85);
 
-  // Content drifts upward and dims as the hero leaves
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      gsap.to("[data-hero-content]", {
-        yPercent: -14,
-        autoAlpha: 0.15,
-        ease: "none",
-        scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
-      });
-    },
-    { scope: root },
-  );
+        // Content drifts upward and dims as the hero leaves
+        gsap.to("[data-hero-content]", {
+          yPercent: -14,
+          opacity: 0.15,
+          ease: "none",
+          scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
+        });
+      }, root.current);
+      scheduleScrollRefresh();
+    });
+
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
+  }, [introDone]);
 
   return (
     <section
@@ -88,7 +89,7 @@ export function Hero() {
         <h1
           id="hero-title"
           data-intro
-          className="text-[clamp(3.1rem,8.6vw,10.25rem)] font-bold leading-[0.88] tracking-[-0.055em] text-steel-50"
+          className="whitespace-nowrap text-[clamp(2.3rem,11.6vw,4.5rem)] font-bold leading-[0.88] tracking-[-0.055em] text-steel-50 lg:text-[clamp(3.1rem,8.6vw,10.25rem)]"
         >
           <span className="block overflow-hidden pb-[0.06em]">
             <span data-hero-line className="block max-lg:animate-rise">
@@ -116,7 +117,7 @@ export function Hero() {
           <p
             data-intro
             data-hero-fade
-            className="text-lead text-steel-300 max-lg:animate-rise max-lg:[animation-delay:220ms]"
+            className="text-lead text-steel-300 max-lg:animate-rise max-lg:[animation-delay:220ms] max-sm:min-h-[4lh]"
           >
             Construction, fit-out, interiors and maintenance — delivered from Dubai with technical precision and a
             single standard of work.

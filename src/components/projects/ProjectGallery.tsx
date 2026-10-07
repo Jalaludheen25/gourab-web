@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import type { Project } from "@/data/types";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { DESKTOP_MOTION, useLazyGsap } from "@/lib/gsap-lazy";
 import { ProjectCard } from "./ProjectCard";
 
 /**
@@ -13,8 +13,8 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
   const root = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
+  useLazyGsap(
+    ({ gsap }) => {
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
         const el = track.current;
@@ -53,7 +53,8 @@ export function ProjectGallery({ projects }: { projects: Project[] }) {
       });
       return () => mm.revert();
     },
-    { scope: root, dependencies: [projects.length] },
+    root,
+    { deps: [projects.length], media: DESKTOP_MOTION },
   );
 
   return (

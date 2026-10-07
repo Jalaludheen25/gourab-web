@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { ButtonLink } from "@/components/ui/Button";
 import { mainNav } from "@/data/navigation";
-import { gsap } from "@/lib/gsap";
+import { loadGsap } from "@/lib/gsap-lazy";
 import { useIntroDone } from "@/lib/intro";
 import { cn } from "@/lib/utils";
 import { useLenis } from "./SmoothScroll";
@@ -50,19 +50,23 @@ export function Navbar() {
   }, []);
 
   // Enter after the intro on desktop
+  // (CSS only hides it on desktop with motion allowed — elsewhere it is already visible)
   useEffect(() => {
-    if (!introDone || !header.current) return;
-    const desktop = window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!desktop || reduced) {
-      gsap.set(header.current, { autoAlpha: 1 });
-      return;
-    }
-    gsap.fromTo(
-      header.current,
-      { autoAlpha: 0, yPercent: -60 },
-      { autoAlpha: 1, yPercent: 0, duration: 1.2, ease: "expo.out", delay: 0.55 },
-    );
+    const el = header.current;
+    if (!introDone || !el) return;
+    if (!window.matchMedia("(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+    let cancelled = false;
+    loadGsap().then(({ gsap }) => {
+      if (cancelled) return;
+      gsap.fromTo(
+        el,
+        { autoAlpha: 0, yPercent: -60 },
+        { autoAlpha: 1, yPercent: 0, duration: 1.2, ease: "expo.out", delay: 0.55 },
+      );
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [introDone]);
 
   // Lock scroll while the mobile menu is open

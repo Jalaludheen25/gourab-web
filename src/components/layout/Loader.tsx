@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
-import { gsap } from "@/lib/gsap";
+import { loadGsap } from "@/lib/gsap-lazy";
 import { hasSeenIntro, markIntroDone } from "@/lib/intro";
 import { useLenis } from "./SmoothScroll";
 
@@ -40,38 +40,53 @@ export function Loader() {
       return;
     }
 
-    const count = { v: 0 };
-    const tl = gsap.timeline({
-      defaults: { ease: "expo.out" },
-      onComplete: () => setMounted(false),
+    let cancelled = false;
+    let kill = () => {};
+    // Safety net: never hold the page if the animation chunk fails to load
+    const failsafe = window.setTimeout(() => {
+      markIntroDone();
+      setMounted(false);
+    }, 4000);
+
+    loadGsap().then(({ gsap }) => {
+      if (cancelled) return;
+      window.clearTimeout(failsafe);
+      const count = { v: 0 };
+      const tl = gsap.timeline({
+        defaults: { ease: "expo.out" },
+        onComplete: () => setMounted(false),
+      });
+      kill = () => tl.kill();
+
+      tl.to(line.current, { scaleX: 1, duration: 0.9, ease: "power3.inOut" })
+        .fromTo(
+          mark.current,
+          { clipPath: "inset(100% 0% 0% 0%)", yPercent: 12 },
+          { clipPath: "inset(0% 0% 0% 0%)", yPercent: 0, duration: 1.1 },
+          0.25,
+        )
+        .to(
+          count,
+          {
+            v: 100,
+            duration: 1.2,
+            ease: "power2.inOut",
+            onUpdate: () => {
+              if (counter.current) counter.current.textContent = String(Math.round(count.v)).padStart(3, "0");
+            },
+          },
+          0.1,
+        )
+        .fromTo(meta.current, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.55)
+        .add(() => markIntroDone(), 1.45)
+        .to([mark.current, meta.current], { autoAlpha: 0, y: -16, duration: 0.5, ease: "power2.in" }, 1.35)
+        .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.95, ease: "power4.inOut" }, 1.5);
     });
 
-    tl.to(line.current, { scaleX: 1, duration: 0.9, ease: "power3.inOut" })
-      .fromTo(
-        mark.current,
-        { clipPath: "inset(100% 0% 0% 0%)", yPercent: 12 },
-        { clipPath: "inset(0% 0% 0% 0%)", yPercent: 0, duration: 1.1 },
-        0.25,
-      )
-      .to(
-        count,
-        {
-          v: 100,
-          duration: 1.2,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            if (counter.current) counter.current.textContent = String(Math.round(count.v)).padStart(3, "0");
-          },
-        },
-        0.1,
-      )
-      .fromTo(meta.current, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.55)
-      .add(() => markIntroDone(), 1.45)
-      .to([mark.current, meta.current], { autoAlpha: 0, y: -16, duration: 0.5, ease: "power2.in" }, 1.35)
-      .to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.95, ease: "power4.inOut" }, 1.5);
-
     return () => {
-      tl.kill();
+      cancelled = true;
+      window.clearTimeout(failsafe);
+      kill();
     };
   }, []);
 

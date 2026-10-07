@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image, { getImageProps } from "next/image";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { media } from "@/data/media";
 import { useIsDesktopPointer, usePrefersReducedMotion } from "@/lib/hooks";
 import { useIntroDone } from "@/lib/intro";
@@ -56,6 +56,7 @@ export function HeroVisual() {
   const [ready, setReady] = useState(false);
   const [inView, setInView] = useState(true);
   const [mount3D, setMount3D] = useState(false);
+  const handleReady = useCallback(() => setReady(true), []);
 
   // Build the scene only after the intro, when the main thread is idle
   useEffect(() => {
@@ -125,7 +126,7 @@ export function HeroVisual() {
             ready && introDone ? "opacity-100" : "opacity-0",
           )}
         >
-          <HeroScene active={inView} play={ready && introDone} onReady={() => setReady(true)} />
+          <HeroScene active={inView} play={ready && introDone} onReady={handleReady} />
         </div>
       )}
     </div>

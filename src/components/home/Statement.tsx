@@ -4,35 +4,25 @@ import { useRef } from "react";
 import { Emphasis } from "@/components/ui/Emphasis";
 import { brandStatement } from "@/data/content";
 import { site } from "@/data/site";
-import { gsap, SplitText, useGSAP } from "@/lib/gsap";
-import { whenNearViewport } from "@/lib/hooks";
+import { useLazyGsap } from "@/lib/gsap-lazy";
 
 /** Editorial positioning statement — words light up with scroll progress */
 export function Statement() {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    (_, contextSafe) => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !contextSafe) return;
+  useLazyGsap(
+    ({ gsap, SplitText }) => {
+      // Runs only as the statement approaches (lazy), so nothing costs at load
       const text = root.current?.querySelector("[data-statement]");
       if (!text) return;
-
-      // Split and wire the scrub only as the statement approaches
-      let split: SplitText | null = null;
-      const setup = contextSafe(() => {
-        split = SplitText.create(text, { type: "words", aria: "hidden" });
-        const scrollTrigger = { trigger: text, start: "top 78%", end: "bottom 52%", scrub: 0.6 };
-        gsap.fromTo(split.words, { opacity: 0.5 }, { opacity: 1, ease: "none", stagger: 0.12, scrollTrigger });
-        gsap.fromTo("[data-statement-line]", { scaleX: 0 }, { scaleX: 1, ease: "none", scrollTrigger });
-      });
-      const stop = whenNearViewport(text, setup, "0px 0px 60% 0px");
-
-      return () => {
-        stop();
-        split?.revert();
-      };
+      const split = SplitText.create(text, { type: "words", aria: "hidden" });
+      const scrollTrigger = { trigger: text, start: "top 78%", end: "bottom 52%", scrub: 0.6 };
+      gsap.fromTo(split.words, { opacity: 0.5 }, { opacity: 1, ease: "none", stagger: 0.12, scrollTrigger });
+      gsap.fromTo("[data-statement-line]", { scaleX: 0 }, { scaleX: 1, ease: "none", scrollTrigger });
+      return () => split.revert();
     },
-    { scope: root },
+    root,
+    { lazy: true },
   );
 
   return (

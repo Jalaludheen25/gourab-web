@@ -1,9 +1,9 @@
 "use client";
 
-import Lenis from "lenis";
+import type Lenis from "lenis";
 import { usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { loadGsap, scheduleScrollRefresh } from "@/lib/gsap-lazy";
 
 const LenisContext = createContext<Lenis | null>(null);
 
@@ -13,7 +13,8 @@ export function useLenis() {
 
 /**
  * Lenis smooth scrolling driven by GSAP's ticker so ScrollTrigger and Lenis
- * share a single frame loop. Desktop pointers only; disabled for reduced motion.
+ * share a single frame loop. Desktop pointers only (both libraries are
+ * loaded on demand); disabled for reduced motion.
  */
 export function SmoothScroll({ children }: { children: ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
@@ -24,23 +25,31 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     // Touch devices keep native scrolling; reduced-motion users get no smoothing
     if (window.matchMedia("(prefers-reduced-motion: reduce), (hover: none), (pointer: coarse)").matches) return;
 
-    const instance = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      anchors: { offset: -80 },
+    let cancelled = false;
+    let teardown = () => {};
+
+    Promise.all([import("lenis"), loadGsap()]).then(([{ default: LenisCtor }, { gsap, ScrollTrigger }]) => {
+      if (cancelled) return;
+      const instance = new LenisCtor({
+        duration: 1.15,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        anchors: { offset: -80 },
+      });
+      instance.on("scroll", ScrollTrigger.update);
+      const tick = (time: number) => instance.raf(time * 1000);
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
+      setLenis(instance);
+      teardown = () => {
+        gsap.ticker.remove(tick);
+        instance.destroy();
+      };
     });
 
-    instance.on("scroll", ScrollTrigger.update);
-    const tick = (time: number) => instance.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- expose the instance once created
-    setLenis(instance);
-
     return () => {
-      gsap.ticker.remove(tick);
-      instance.destroy();
+      cancelled = true;
+      teardown();
       setLenis(null);
     };
   }, []);
@@ -53,7 +62,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     }
     lenis?.scrollTo(0, { immediate: true, force: true });
     const id = window.setTimeout(() => {
-      ScrollTrigger.refresh();
+      scheduleScrollRefresh();
       const hash = window.location.hash;
       if (hash.length > 1) {
         const target = document.getElementById(decodeURIComponent(hash.slice(1)));

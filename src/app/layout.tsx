@@ -8,6 +8,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Hydrate } from "@/components/ui/Hydrate";
 import { site } from "@/data/site";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
@@ -104,7 +105,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <main id="main" tabIndex={-1} className="outline-none">
               {children}
             </main>
-            <Footer />
+            <Hydrate>
+              <Footer />
+            </Hydrate>
             <CustomCursor />
           </PageTransition>
         </SmoothScroll>

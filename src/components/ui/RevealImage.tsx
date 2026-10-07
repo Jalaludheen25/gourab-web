@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import type { Media } from "@/data/types";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { loadGsap } from "@/lib/gsap-lazy";
 import { whenNearViewport } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
@@ -55,40 +55,62 @@ export function RevealImage({
     if (!el || !img) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const tweens: (gsap.core.Tween | ScrollTrigger)[] = [];
-    let stop = () => {};
-
-    if (reveal) {
-      gsap.set(el, { clipPath: clipFrom[from] });
-      gsap.set(img, { scale: 1.28 });
-      stop = whenNearViewport(
-        el,
-        () => {
-          tweens.push(gsap.to(el, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.5, ease: "expo.inOut" }));
-          tweens.push(gsap.to(img, { scale: 1, duration: 2, ease: "expo.out" }));
-        },
-        "0px 0px -10% 0px",
-      );
-    }
-
+    const killers: (() => void)[] = [];
+    let cancelled = false;
     const desktop = window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches;
-    if (parallax && desktop) {
-      const p = gsap.fromTo(
-        img,
-        { yPercent: -7 },
-        {
-          yPercent: 7,
-          ease: "none",
-          scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
-        },
-      );
-      tweens.push(p);
+
+    // Pre-reveal state as plain styles — GSAP is fetched only when needed
+    if (reveal) {
+      el.style.clipPath = clipFrom[from];
+      img.style.transform = "scale(1.28)";
     }
+
+    const stopReveal = reveal
+      ? whenNearViewport(
+          el,
+          () =>
+            loadGsap().then(({ gsap }) => {
+              if (cancelled) return;
+              const a = gsap.to(el, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.5, ease: "expo.inOut" });
+              const b = gsap.to(img, { scale: 1, duration: 2, ease: "expo.out" });
+              killers.push(() => a.kill(), () => b.kill());
+            }),
+          "0px 0px -10% 0px",
+        )
+      : () => {};
+
+    const stopParallax =
+      parallax && desktop
+        ? whenNearViewport(
+            el,
+            () =>
+              loadGsap().then(({ gsap }) => {
+                if (cancelled) return;
+                const p = gsap.fromTo(
+                  img,
+                  { yPercent: -7 },
+                  {
+                    yPercent: 7,
+                    ease: "none",
+                    scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
+                  },
+                );
+                killers.push(() => {
+                  p.scrollTrigger?.kill();
+                  p.kill();
+                });
+              }),
+            "0px 0px 50% 0px",
+          )
+        : () => {};
 
     return () => {
-      stop();
-      tweens.forEach((t) => t.kill());
-      gsap.set([el, img], { clearProps: "clipPath,transform" });
+      cancelled = true;
+      stopReveal();
+      stopParallax();
+      killers.forEach((k) => k());
+      el.style.clipPath = "";
+      img.style.transform = "";
     };
   }, [reveal, parallax, from]);
 

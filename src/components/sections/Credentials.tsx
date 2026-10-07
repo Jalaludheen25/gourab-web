@@ -4,7 +4,7 @@ import { useRef, type ReactNode } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { services } from "@/data/services";
 import { site } from "@/data/site";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useLazyGsap } from "@/lib/gsap-lazy";
 import { whenNearViewport } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
 
@@ -47,9 +47,8 @@ function Figure({ value, note }: { value: string; note: string }) {
 export function Credentials({ index = "04" }: { index?: string }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  useLazyGsap(
+    ({ gsap }) => {
       const q = gsap.utils.selector(root);
 
       const stops = q("[data-scramble]").map((el) =>
@@ -85,7 +84,8 @@ export function Credentials({ index = "04" }: { index?: string }) {
       }
       return () => stops.forEach((stop) => stop());
     },
-    { scope: root },
+    root,
+    { lazy: true },
   );
 
   return (

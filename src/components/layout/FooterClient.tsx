@@ -1,27 +1,28 @@
 "use client";
 
 import { ArrowUp } from "lucide-react";
-import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useEffect, useRef, useState } from "react";
+import { whenNearViewport } from "@/lib/hooks";
 import { useLenis } from "./SmoothScroll";
 
-/** Gold datum line that draws across the footer as it enters */
+/** Gold datum line that draws across the footer as it enters (CSS transition) */
 export function FooterLine() {
   const ref = useRef<HTMLSpanElement>(null);
-  useGSAP(() => {
-    if (!ref.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    gsap.fromTo(
-      ref.current,
-      { scaleX: 0 },
-      {
-        scaleX: 1,
-        duration: 2,
-        ease: "expo.inOut",
-        scrollTrigger: { trigger: ref.current, start: "top 95%", once: true },
-      },
-    );
-  });
-  return <span ref={ref} aria-hidden className="bg-gold-sweep block h-px w-full origin-left" />;
+  const [drawn, setDrawn] = useState(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    return whenNearViewport(ref.current, () => setDrawn(true), "0px 0px -5% 0px");
+  }, []);
+
+  return (
+    <span
+      ref={ref}
+      aria-hidden
+      className="bg-gold-sweep block h-px w-full origin-left transition-transform duration-[2000ms] ease-[var(--ease-quart)]"
+      style={{ transform: drawn ? "scaleX(1)" : "scaleX(0)" }}
+    />
+  );
 }
 
 export function BackToTop() {

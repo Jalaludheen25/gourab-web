@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { approach } from "@/data/content";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useLazyGsap } from "@/lib/gsap-lazy";
 
 function CropMarks() {
   const mark = "absolute size-5 border-steel-600";
@@ -21,9 +21,8 @@ function CropMarks() {
 export function ProcessTimeline({ index = "03" }: { index?: string }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  useLazyGsap(
+    ({ gsap }) => {
       const q = gsap.utils.selector(root);
       const track = q("[data-track]")[0];
 
@@ -50,7 +49,8 @@ export function ProcessTimeline({ index = "03" }: { index?: string }) {
         scrollTrigger: { trigger: track, start: "top 82%", once: true },
       });
     },
-    { scope: root },
+    root,
+    { lazy: true },
   );
 
   return (

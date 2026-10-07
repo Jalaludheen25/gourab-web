@@ -4,7 +4,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
 import { mainNav } from "@/data/navigation";
-import { gsap } from "@/lib/gsap";
+import { loadGsap } from "@/lib/gsap-lazy";
 
 function labelFor(pathname: string): string {
   if (pathname === "/") return "Home";
@@ -34,14 +34,16 @@ export function PageTransition({ children }: { children: ReactNode }) {
     window.clearTimeout(fallback.current);
     const el = overlay.current;
     if (!el) return;
-    gsap
-      .timeline({
-        onComplete: () => {
-          gsap.set(el, { visibility: "hidden" });
-          busy.current = false;
-        },
-      })
-      .to(el, { yPercent: -100, duration: 0.85, ease: "power4.inOut", delay: 0.12 });
+    loadGsap().then(({ gsap }) => {
+      gsap
+        .timeline({
+          onComplete: () => {
+            gsap.set(el, { visibility: "hidden" });
+            busy.current = false;
+          },
+        })
+        .to(el, { yPercent: -100, duration: 0.85, ease: "power4.inOut", delay: 0.12 });
+    });
   }, []);
 
   useEffect(() => {
@@ -67,20 +69,36 @@ export function PageTransition({ children }: { children: ReactNode }) {
       if (label.current) label.current.textContent = labelFor(url.pathname);
       const target = url.pathname + url.search + url.hash;
 
-      gsap
-        .timeline()
-        .set(el, { visibility: "visible", yPercent: 100 })
-        .set(line.current, { scaleX: 0 })
-        .to(el, { yPercent: 0, duration: 0.65, ease: "power4.inOut" })
-        .to(line.current, { scaleX: 1, duration: 0.5, ease: "expo.out" }, "-=0.25")
-        .add(() => {
+      loadGsap()
+        .then(({ gsap }) => {
+          gsap
+            .timeline()
+            .set(el, { visibility: "visible", yPercent: 100 })
+            .set(line.current, { scaleX: 0 })
+            .to(el, { yPercent: 0, duration: 0.65, ease: "power4.inOut" })
+            .to(line.current, { scaleX: 1, duration: 0.5, ease: "expo.out" }, "-=0.25")
+            .add(() => {
+              router.push(target);
+              fallback.current = window.setTimeout(reveal, 2500);
+            });
+        })
+        .catch(() => {
+          // Animation unavailable — navigate without the curtain
+          busy.current = false;
           router.push(target);
-          fallback.current = window.setTimeout(reveal, 2500);
         });
     };
 
+    // Warm the animation module on first intent so the curtain starts instantly
+    const warm = () => void loadGsap();
+    window.addEventListener("pointerdown", warm, { once: true, capture: true });
+    window.addEventListener("focusin", warm, { once: true });
     window.addEventListener("click", onClick, true);
-    return () => window.removeEventListener("click", onClick, true);
+    return () => {
+      window.removeEventListener("pointerdown", warm, true);
+      window.removeEventListener("focusin", warm);
+      window.removeEventListener("click", onClick, true);
+    };
   }, [router, reveal]);
 
   // The new route has rendered underneath — lift the curtain

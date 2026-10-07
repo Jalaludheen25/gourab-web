@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { media } from "@/data/media";
 import { site } from "@/data/site";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { DESKTOP_MOTION, useLazyGsap } from "@/lib/gsap-lazy";
 import { DubaiClock } from "./DubaiClock";
 
 /**
@@ -15,8 +15,8 @@ import { DubaiClock } from "./DubaiClock";
 export function DubaiChapter({ index = "07" }: { index?: string }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
+  useLazyGsap(
+    ({ gsap }) => {
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
         const q = gsap.utils.selector(root);
@@ -42,7 +42,8 @@ export function DubaiChapter({ index = "07" }: { index?: string }) {
       });
       return () => mm.revert();
     },
-    { scope: root },
+    root,
+    { media: DESKTOP_MOTION },
   );
 
   return (

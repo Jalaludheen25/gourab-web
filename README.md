@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gourab Technical Services L.L.C — Website
 
-## Getting Started
+Marketing website for **Gourab Technical Services L.L.C** (غوراب للخدمات الفنية ش.ذ.م.م), a Dubai-licensed company delivering construction, fit-out, interiors and maintenance. Brand line: *Your Vision. Our Expertise.*
 
-First, run the development server:
+Built with Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, GSAP (ScrollTrigger, SplitText), Lenis, Three.js / React Three Fiber, Framer Motion, React Hook Form and Zod.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run lint
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Copy `.env.example` to `.env.local` and set:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Public origin for canonical URLs, sitemap, Open Graph and JSON-LD. Defaults to `https://www.gtsllcuae.com` (the domain of the company email). |
+| `CONTACT_FORM_ENDPOINT` | Any endpoint accepting a JSON POST (Formspree, Make/Zapier webhook, your API). Without it, production returns 503 and the form offers a pre-filled email instead. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Content: single source of truth
 
-To learn more about Next.js, take a look at the following resources:
+All company content lives in `src/data/`. **Only verified information from the client's materials is used.** Nothing is invented.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| File | What it holds |
+| --- | --- |
+| `site.ts` | Legal name, Arabic name, tagline, phones, emails, offices, licence numbers, leadership, group company. `whatsapp`, `hours` and `social` are empty until supplied. |
+| `services.ts` | The four services (Construction, Fit-Out, Interiors, Maintenance). `scope: []` is intentionally empty. Add confirmed scope items and the service page shows a *Scope* block. |
+| `content.ts` | Brand statement, five-stage approach, differentiators, promise copy. |
+| `projects.ts` | **Empty.** The site shows an honest "portfolio in preparation" state. Add real projects (format documented in the file) and the home gallery, `/projects`, `/projects/[slug]` case studies and sitemap appear automatically. |
+| `testimonials.ts` | `testimonials` and `clients`, both **empty**. Their sections stay hidden until genuine entries are added. |
+| `media.ts` | Image registry plus `imageCredits`. |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Sources used
 
-## Deploy on Vercel
+- GTS logo file (gold/silver, transparent): the master artwork. Every logo variant in `public/brand/` is an exact crop of it.
+- Company letterhead and business card: contacts and the India office.
+- Brand social post: the four services and the tagline.
+- Dubai DET Commercial Licence 1655231: legal name, legal form, register, chamber number and owner/manager.
+- MEA eMigrate record: the group company, Gourab International Service (same owner).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Not supplied yet (add when available)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Projects and project photography, testimonials, client logos, Dubai street address, WhatsApp number, working hours, social profiles, and confirmed scope per service.
+
+### Photography
+
+Photos in `src/assets/images/` are **CC0 / public-domain placeholders** from Wikimedia Commons and **do not depict Gourab work**. Credits are listed at `/credits`. Replace them with Gourab's own photography by swapping files or entries in `media.ts`.
+
+---
+
+## Design system
+
+Defined in `src/app/globals.css` (Tailwind 4 `@theme`).
+
+- **Palette** comes from the logo. Obsidian surfaces, a brushed-steel scale (`steel-*`) and crane gold (`gold`, `gold-light`, `gold-deep`), plus the warm sand and copper of the company stationery for editorial chapters.
+- **Type** is Manrope (display and body, echoing the geometric wordmark), Instrument Serif italic (accents) and Geist Mono (technical labels). The fluid scale is `text-mega`, `text-display`, `text-headline`, `text-title`, `text-statement` and `text-lead`.
+- **Motifs:**
+  - `chamfer` and `chamfer-both`: the 45° cut from the G/T/S letterforms.
+  - `text-steel-metal` and `text-gold-metal`: gradient finishes.
+  - `bg-blueprint` (plus its fine and sand variants): drawing grids.
+  - `bg-gold-sweep`: the datum line.
+  - `grain`: film grain.
+- **Motion** tokens are `ease-expo`, `ease-quart`, `ease-swift` and `ease-soft`.
+
+`src/lib/utils.ts` registers the custom font-size tokens with tailwind-merge. Keep it in sync if you add sizes.
+
+## Architecture notes
+
+```
+src/app/            routes, metadata files (sitemap, robots, manifest, icons, OG), /api/contact
+src/components/
+  layout/           Navbar, MobileMenu, Footer, Loader, PageTransition, SmoothScroll, CustomCursor
+  home/             Hero (+ HeroVisual), Statement, AboutIntro, ServicesShowcase
+  sections/         reusable chapters: ProcessTimeline, Credentials, WhyGourab, Portfolio, DubaiChapter, FinalCTA, PageHero…
+  three/HeroScene   the WebGL hero ("the logo, built")
+  ui/               RevealText, RevealImage, Button/ArrowLink, Magnetic, SectionHeading, Hydrate…
+src/data/           content (see above)
+src/lib/            gsap-lazy (on-demand GSAP), hooks, intro store, seo/JSON-LD, contact schema
+```
+
+- **Animation loads on demand.** Never import `src/lib/gsap.ts` statically. Use `loadGsap()` or `useLazyGsap(setup, scopeRef, { lazy, media })` from `src/lib/gsap-lazy.ts`, so motion code stays out of the initial bundle and below-the-fold chapters only set up as they approach.
+- **3D hero:**
+  - Runs only on desktop fine pointers with *hardware* WebGL (`failIfMajorPerformanceCaveat`) and without reduced motion. Everyone else gets the cinematic photograph.
+  - Shaders compile in parallel (`compileAsync`) before the first frame.
+  - Shader error checks are dev-only.
+  - The render loop pauses when the hero is off-screen.
+- **Intro:** a desktop-only first-visit loader, once per session. Phones never wait on animation before content is visible.
+- **Accessibility:**
+  - Skip link, visible focus states and a full `prefers-reduced-motion` path.
+  - Reveal states use opacity, not `visibility`, so text stays in the accessibility tree.
+  - SplitText copies are screen-reader safe.
+  - Contrast-checked tokens.
+- **Rendering:** Cache Components is disabled on purpose. Every page is statically generated, and routes unmount between navigations (which keeps GSAP/WebGL lifecycles simple). Re-enabling it requires `generateStaticParams` in `/projects/[slug]` to return at least one param.
+
+## Pages
+
+`/`, `/about`, `/services`, `/services/[slug]` (4), `/projects`, `/projects/[slug]`, `/contact`, `/privacy`, `/credits`, plus a branded 404.

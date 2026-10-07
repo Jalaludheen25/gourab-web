@@ -7,7 +7,7 @@ import { ArrowLink } from "@/components/ui/Button";
 import { RevealImage } from "@/components/ui/RevealImage";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { services } from "@/data/services";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { DESKTOP_MOTION, useLazyGsap } from "@/lib/gsap-lazy";
 import { cn } from "@/lib/utils";
 
 export function ServicesShowcase() {
@@ -15,8 +15,8 @@ export function ServicesShowcase() {
   const root = useRef<HTMLElement>(null);
   const pin = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
+  useLazyGsap(
+    ({ gsap, ScrollTrigger }) => {
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
         const distance = () => window.innerHeight * (services.length - 0.35);
@@ -50,7 +50,8 @@ export function ServicesShowcase() {
       });
       return () => mm.revert();
     },
-    { scope: root },
+    root,
+    { media: DESKTOP_MOTION },
   );
 
   const current = services[active];

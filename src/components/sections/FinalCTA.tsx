@@ -7,15 +7,14 @@ import { Eyebrow } from "@/components/ui/SectionHeading";
 import { media } from "@/data/media";
 import { primaryEmail, primaryPhone } from "@/data/site";
 import type { Media } from "@/data/types";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useLazyGsap } from "@/lib/gsap-lazy";
 
 /** Closing call to action — full-bleed architectural image, calm motion */
 export function FinalCTA({ image = media.dubaiAerialNight }: { image?: Media }) {
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  useLazyGsap(
+    ({ gsap }) => {
       const q = gsap.utils.selector(root);
       gsap.fromTo(
         q("[data-cta-img]"),
@@ -35,7 +34,8 @@ export function FinalCTA({ image = media.dubaiAerialNight }: { image?: Media }) 
         scrollTrigger: { trigger: root.current, start: "top 60%", once: true },
       });
     },
-    { scope: root },
+    root,
+    { lazy: true },
   );
 
   return (

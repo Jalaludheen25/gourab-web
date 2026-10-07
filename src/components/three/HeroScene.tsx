@@ -3,7 +3,6 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
 /* --------------------------------------------------------------------------
    "The logo, built."
@@ -69,20 +68,19 @@ function Tower({ state, play }: PartProps) {
 
   const materials = useMemo(
     () => ({
-      steel: new THREE.MeshStandardMaterial({ color: "#c9ccd1", metalness: 0.9, roughness: 0.3, envMapIntensity: 0.55 }),
-      slab: new THREE.MeshStandardMaterial({ color: "#9a9b9e", metalness: 0.35, roughness: 0.6, envMapIntensity: 0.35 }),
-      concrete: new THREE.MeshStandardMaterial({ color: "#5d5f63", metalness: 0.1, roughness: 0.9, envMapIntensity: 0.3 }),
+      steel: new THREE.MeshStandardMaterial({ color: "#c9ccd1", metalness: 0.55, roughness: 0.32 }),
+      slab: new THREE.MeshStandardMaterial({ color: "#a3a4a7", metalness: 0.2, roughness: 0.62 }),
+      concrete: new THREE.MeshStandardMaterial({ color: "#5d5f63", metalness: 0.05, roughness: 0.9 }),
       glass: new THREE.MeshStandardMaterial({
-        color: "#8d969f",
-        metalness: 0.65,
-        roughness: 0.06,
+        color: "#7f8c99",
+        metalness: 0.3,
+        roughness: 0.08,
         transparent: true,
-        opacity: 0.32,
-        envMapIntensity: 1,
+        opacity: 0.34,
         side: THREE.DoubleSide,
         depthWrite: false,
       }),
-      mullion: new THREE.MeshStandardMaterial({ color: "#e4e6e9", metalness: 1, roughness: 0.22, envMapIntensity: 0.6 }),
+      mullion: new THREE.MeshStandardMaterial({ color: "#e4e6e9", metalness: 0.6, roughness: 0.25 }),
     }),
     [],
   );
@@ -266,7 +264,7 @@ function Crane({ state, play }: PartProps) {
       "position",
       new THREE.Float32BufferAttribute([0, 0.95, 0, 4.2, 0.08, 0, 0, 0.95, 0, -1.6, 0.16, 0, 0, 0, 0, 0, 0.95, 0], 3),
     );
-    const goldSolid = new THREE.MeshStandardMaterial({ color: "#e9b524", metalness: 0.75, roughness: 0.32, emissive: "#3a2600", envMapIntensity: 0.6 });
+    const goldSolid = new THREE.MeshStandardMaterial({ color: "#e9b524", metalness: 0.45, roughness: 0.3, emissive: "#4a3200" });
     return { mast: mastGeo, jib: jibGeo, ties: tieGeo, gold: goldSolid, line: goldLine };
   }, []);
 
@@ -421,7 +419,7 @@ function Rig({ state }: { state: React.RefObject<SharedState> }) {
   return null;
 }
 
-/* ----------------------------- Studio lighting ---------------------------- */
+/* -------------------------------- Warm-up ------------------------------- */
 
 const nextIdle = () =>
   new Promise<void>((resolve) => {
@@ -430,44 +428,18 @@ const nextIdle = () =>
   });
 
 /**
- * Procedural reflections (no HDR download): three's RoomEnvironment
- * pre-filtered through PMREM. Built in its own idle task with its shaders
- * compiled in parallel, so it never lands in one long main-thread block.
- */
-async function buildEnvironment(gl: THREE.WebGLRenderer) {
-  const room = new RoomEnvironment();
-  await gl.compileAsync(room, new THREE.PerspectiveCamera());
-  await nextIdle();
-  const pmrem = new THREE.PMREMGenerator(gl);
-  const texture = pmrem.fromScene(room, 0.04).texture;
-  room.dispose();
-  pmrem.dispose();
-  return texture;
-}
-
-/**
- * Staged warm-up: environment first, then every scene shader compiled with
- * KHR_parallel_shader_compile (compileAsync). Rendering starts only after.
+ * Staged warm-up: every scene shader is compiled in parallel
+ * (KHR_parallel_shader_compile via compileAsync) before the first frame, so
+ * the scene never lands as one long main-thread block. Lighting is fully
+ * analytic — no environment map, which would require PMREM's slow-to-compile
+ * blur shaders on some GPUs.
  */
 function Stage({ onCompiled }: { onCompiled: () => void }) {
   const gl = useThree((st) => st.gl);
   const scene = useThree((st) => st.scene);
   const camera = useThree((st) => st.camera);
-  const [env, setEnv] = useState<THREE.Texture | null>(null);
 
   useEffect(() => {
-    let alive = true;
-    buildEnvironment(gl).then((texture) => {
-      if (alive) setEnv(texture);
-      else texture.dispose();
-    });
-    return () => {
-      alive = false;
-    };
-  }, [gl]);
-
-  useEffect(() => {
-    if (!env) return;
     let alive = true;
     nextIdle()
       .then(() => gl.compileAsync(scene, camera))
@@ -475,11 +447,9 @@ function Stage({ onCompiled }: { onCompiled: () => void }) {
     return () => {
       alive = false;
     };
-  }, [env, gl, scene, camera, onCompiled]);
+  }, [gl, scene, camera, onCompiled]);
 
-  useEffect(() => () => env?.dispose(), [env]);
-
-  return env ? <primitive object={env} attach="environment" /> : null;
+  return null;
 }
 
 /** Blueprint ground: fine cells + gold section lines, faded by fog */
@@ -560,13 +530,17 @@ export default function HeroScene({ active, play, onReady }: HeroSceneProps) {
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
         gl.toneMappingExposure = 1.05;
+        // Error checks call getProgramInfoLog, which forces shader compilation to
+        // finish synchronously and defeats parallel compile — dev builds only.
+        gl.debug.checkShaderErrors = process.env.NODE_ENV !== "production";
       }}
       aria-hidden
     >
       <fog attach="fog" args={["#0a0b0d", 24, 48]} />
 
-      <ambientLight intensity={0.22} />
-      <directionalLight position={[-6, 11, 7]} intensity={2.6} color="#ffdcae" />
+      <hemisphereLight args={["#c9d2e0", "#3a2a14", 0.4]} />
+      <ambientLight intensity={0.12} />
+      <directionalLight position={[-6, 11, 7]} intensity={3.4} color="#ffd29c" />
       <directionalLight position={[9, 5, -8]} intensity={0.9} color="#a9bddf" />
       <pointLight position={[TOWER_X, 0.6, 2.2]} intensity={6} distance={6} color="#f2c230" />
 

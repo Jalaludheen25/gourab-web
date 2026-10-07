@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
-import { gsap, SplitText } from "@/lib/gsap";
+import type { GsapKit } from "@/lib/gsap-lazy";
+import { loadGsap } from "@/lib/gsap-lazy";
 import { whenNearViewport } from "@/lib/hooks";
 import { useIntroDone } from "@/lib/intro";
 import { cn } from "@/lib/utils";
@@ -54,14 +55,14 @@ export function RevealText({
       return;
     }
 
-    let split: SplitText | null = null;
-    let tween: gsap.core.Tween | null = null;
+    let split: InstanceType<GsapKit["SplitText"]> | null = null;
+    let tween: ReturnType<GsapKit["gsap"]["from"]> | null = null;
     let cancelled = false;
     // Opacity (not visibility) keeps the text in the accessibility tree while it waits
     el.style.opacity = "0";
 
     const run = () => {
-      document.fonts.ready.then(() => {
+      Promise.all([loadGsap(), document.fonts.ready]).then(([{ gsap, SplitText }]) => {
         if (cancelled) return;
         const isHeading = /^H[1-6]$/.test(el.tagName);
         split = SplitText.create(el, { type: "lines", mask: "lines", aria: isHeading ? "auto" : "hidden" });
