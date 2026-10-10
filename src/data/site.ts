@@ -49,7 +49,6 @@ export const site = {
 
   offices: [
     { label: "Head office", city: "Dubai", country: "United Arab Emirates" },
-    { label: "India office", city: "Nadia", region: "West Bengal", country: "India" },
   ] satisfies Office[],
 
   /** Social profiles — none supplied yet */
@@ -75,7 +74,6 @@ export const site = {
         "Recruiting agent registered with the Ministry of External Affairs, Government of India, through the eMigrate system.",
       raId: "RA5695683",
       rcNumber: "B-1786/WB/PER/1000+/5/10077/2022",
-      location: "Nadia, West Bengal, India",
       status: "Active",
     },
   ],

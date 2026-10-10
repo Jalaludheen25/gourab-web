@@ -27,8 +27,7 @@ export function AboutStory() {
         <div className="col-span-12 space-y-6 text-lead text-umber-soft lg:col-span-6 lg:col-start-7 lg:pt-16">
           <p>
             {site.legalName} is a limited liability company licensed by Dubai&apos;s Department of Economy and
-            Tourism and registered with the Dubai Chamber. Our head office is in Dubai, with a second office in
-            Nadia, West Bengal, India.
+            Tourism and registered with the Dubai Chamber. Our head office is in Dubai.
           </p>
           <p>
             We bring four disciplines together — {services.map((s) => s.name.toLowerCase()).join(", ").replace(/, ([^,]*)$/, " and $1")} — so

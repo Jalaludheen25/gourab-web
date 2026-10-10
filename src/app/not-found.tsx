@@ -25,7 +25,7 @@ export default function NotFound() {
         </div>
       </div>
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 opacity-20">
-        <Image src="/brand/gts-skyline.png" alt="" width={2000} height={370} sizes="100vw" className="h-auto w-full" />
+        <Image src="/brand/gts-skyline.png" alt="" width={2000} height={382} sizes="100vw" className="h-auto w-full" />
       </div>
     </section>
   );

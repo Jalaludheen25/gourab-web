@@ -1,4 +1,5 @@
 import { AboutStory } from "@/components/about/AboutStory";
+import { Vision } from "@/components/about/Vision";
 import { PeopleAndGroup } from "@/components/about/PeopleAndGroup";
 import { Credentials } from "@/components/sections/Credentials";
 import { FinalCTA } from "@/components/sections/FinalCTA";
@@ -39,10 +40,11 @@ export default function AboutPage() {
         }
       />
       <AboutStory />
-      <ProcessTimeline index="02" />
-      <Credentials index="03" />
-      <PeopleAndGroup index="04" />
-      <WhyGourab index="05" />
+      <Vision index="02" />
+      <ProcessTimeline index="03" />
+      <Credentials index="04" />
+      <PeopleAndGroup index="05" />
+      <WhyGourab index="06" />
       <FinalCTA image={media.dubaiNightWater} />
     </>
   );

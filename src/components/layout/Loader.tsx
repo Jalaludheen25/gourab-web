@@ -105,7 +105,7 @@ export function Loader() {
           src="/brand/gts-mark.png"
           alt=""
           width={900}
-          height={659}
+          height={661}
           sizes="320px"
           loading="eager"
           className="h-auto w-full"

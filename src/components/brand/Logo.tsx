@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  *  - "lockup":    monogram beside the wordmark (the horizontal arrangement
  *                 used on the company letterhead)
  *  - "full":      the complete stacked logo with skyline
- *  - "wordmark":  GOURAB TECHNICAL / SERVICES LLC / DUBAI - UAE
+ *  - "wordmark":  GOURAB TECHNICAL / SERVICES LLC / Arabic name
  */
 type LogoProps = {
   variant?: "mark" | "lockup" | "full" | "wordmark";
@@ -17,10 +17,10 @@ type LogoProps = {
 };
 
 const ART = {
-  mark: { src: "/brand/gts-mark.png", w: 900, h: 659 },
-  wordmark: { src: "/brand/gts-wordmark.png", w: 1400, h: 311 },
-  compact: { src: "/brand/gts-wordmark-compact.png", w: 1400, h: 235 },
-  full: { src: "/brand/gts-logo-full.png", w: 1600, h: 1570 },
+  mark: { src: "/brand/gts-mark.png", w: 900, h: 661 },
+  wordmark: { src: "/brand/gts-wordmark.png", w: 1400, h: 395 },
+  compact: { src: "/brand/gts-wordmark-compact.png", w: 1400, h: 229 },
+  full: { src: "/brand/gts-logo-full.png", w: 1600, h: 1615 },
 } as const;
 
 const ALT = "Gourab Technical Services LLC — Dubai, United Arab Emirates";

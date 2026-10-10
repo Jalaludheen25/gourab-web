@@ -12,7 +12,7 @@ export function PortfolioPending({ sheet = "06" }: { sheet?: string }) {
     <div className="relative overflow-hidden border border-white/10 bg-ink chamfer-both [--cut:32px]">
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-blueprint-fine opacity-70" />
       <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 opacity-[0.35] [mask-image:linear-gradient(to_top,black,transparent)]">
-        <Image src="/brand/gts-skyline.png" alt="" width={2000} height={370} sizes="100vw" className="h-auto w-full" />
+        <Image src="/brand/gts-skyline.png" alt="" width={2000} height={382} sizes="100vw" className="h-auto w-full" />
       </div>
 
       <div className="relative grid grid-cols-12 gap-x-6 gap-y-12 p-7 sm:p-10 lg:p-16">

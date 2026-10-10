@@ -148,7 +148,7 @@ export function Footer() {
       </div>
 
       <div aria-hidden className="relative mx-auto mt-4 w-full max-w-[1760px] px-[var(--spacing-gutter)] opacity-[0.22]">
-        <Image src="/brand/gts-skyline.png" alt="" width={2000} height={370} sizes="100vw" className="h-auto w-full" />
+        <Image src="/brand/gts-skyline.png" alt="" width={2000} height={382} sizes="100vw" className="h-auto w-full" />
       </div>
     </footer>
   );

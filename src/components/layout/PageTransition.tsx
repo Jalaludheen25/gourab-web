@@ -125,7 +125,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       >
         <div className="absolute inset-0 bg-blueprint opacity-60" />
         <div className="relative flex flex-col items-center gap-6">
-          <Image src="/brand/gts-mark.png" alt="" width={900} height={659} className="h-auto w-24" sizes="96px" />
+          <Image src="/brand/gts-mark.png" alt="" width={900} height={661} className="h-auto w-24" sizes="96px" />
           <span className="eyebrow text-steel-400" ref={label} />
         </div>
         <span ref={line} className="bg-gold-sweep absolute inset-x-0 bottom-0 h-px origin-left" />

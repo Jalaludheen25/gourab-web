@@ -18,8 +18,8 @@ export function PeopleAndGroup({ index = "04" }: { index?: string }) {
           id="people-title"
           index={index}
           eyebrow="People & group"
-          title="Owner-led, with roots in two countries."
-          intro={`Gourab is owned and managed by ${site.leadership[0].name}, with a head office in Dubai and an office in West Bengal, India.`}
+          title="Owner-led, with a registered group company."
+          intro={`Gourab is owned and managed by ${site.leadership[0].name}, with its head office in Dubai.`}
         />
 
         <div className="mt-16 grid grid-cols-12 gap-6">
@@ -48,11 +48,11 @@ export function PeopleAndGroup({ index = "04" }: { index?: string }) {
               className="col-span-12 flex flex-col justify-between gap-10 border border-white/10 p-8 lg:col-span-7"
             >
               <div>
-                <p className="eyebrow text-steel-500">Group company · India</p>
+                <p className="eyebrow text-steel-500">Group company</p>
                 <h3 className="mt-6 text-title font-semibold text-steel-50">{g.name}</h3>
                 <p className="mt-4 max-w-lg text-steel-400">{g.description}</p>
               </div>
-              <dl className="grid grid-cols-2 gap-6 border-t border-white/10 pt-6 font-mono text-xs sm:grid-cols-4">
+              <dl className="grid grid-cols-2 gap-6 border-t border-white/10 pt-6 font-mono text-xs">
                 <div>
                   <dt className="uppercase tracking-[0.18em] text-steel-500">RA ID</dt>
                   <dd className="mt-2 text-steel-200">{g.raId}</dd>
@@ -63,10 +63,6 @@ export function PeopleAndGroup({ index = "04" }: { index?: string }) {
                     <span aria-hidden className="size-1.5 rounded-full bg-[#5fbf7f]" />
                     {g.status}
                   </dd>
-                </div>
-                <div className="col-span-2">
-                  <dt className="uppercase tracking-[0.18em] text-steel-500">Location</dt>
-                  <dd className="mt-2 text-steel-200">{g.location}</dd>
                 </div>
               </dl>
             </article>

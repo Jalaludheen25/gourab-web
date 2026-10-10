@@ -36,7 +36,7 @@ All company content lives in `src/data/`. **Only verified information from the c
 ### Sources used
 
 - GTS logo file (gold/silver, transparent): the master artwork. Every logo variant in `public/brand/` is an exact crop of it.
-- Company letterhead and business card: contacts and the India office.
+- Company letterhead and business card: contact details.
 - Brand social post: the four services and the tagline.
 - Dubai DET Commercial Licence 1655231: legal name, legal form, register, chamber number and owner/manager.
 - MEA eMigrate record: the group company, Gourab International Service (same owner).

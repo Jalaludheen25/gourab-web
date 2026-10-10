@@ -55,10 +55,6 @@ export const differentiators: Differentiator[] = [
     title: "Dubai-licensed",
     body: "Licensed by Dubai's Department of Economy and Tourism and registered with the Dubai Chamber.",
   },
-  {
-    title: "Two countries",
-    body: "Headquartered in Dubai with an office in West Bengal, India — where our group also operates a government-registered recruiting agency.",
-  },
 ];
 
 export const promise = {
@@ -70,4 +66,26 @@ export const promise = {
     label: "Our expertise",
     body: "We bring the technical discipline to deliver it — planned clearly, built carefully, finished properly and maintained for the long term.",
   },
+};
+
+/** Long-term direction for the About page. Aspirational — no claims of scale or track record. */
+export const vision = {
+  title: "Where we are heading.",
+  intro: "Our long-term direction, and the standard we intend to keep as Gourab grows.",
+  statement:
+    "To be the technical partner people return to at every stage of a space's life — built to specification, finished with care, and kept performing long after the handover.",
+  horizons: [
+    {
+      title: "One standard",
+      body: "The same discipline of planning, measurement and checking on every project, whatever its size.",
+    },
+    {
+      title: "Lasting work",
+      body: "Building with maintenance in mind, so what we deliver keeps serving the people who use it.",
+    },
+    {
+      title: "Growth with purpose",
+      body: "Developing our four disciplines deliberately, never at the cost of the precision our name promises.",
+    },
+  ],
 };

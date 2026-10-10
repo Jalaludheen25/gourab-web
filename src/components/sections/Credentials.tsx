@@ -180,10 +180,6 @@ export function Credentials({ index = "04" }: { index?: string }) {
                         {g.status}
                       </dd>
                     </div>
-                    <div className="col-span-2 sm:col-span-1">
-                      <dt className="uppercase tracking-[0.18em] text-umber-soft">Location</dt>
-                      <dd className="mt-1 text-sm text-umber">{g.location}</dd>
-                    </div>
                     <div className="col-span-2 sm:col-span-3">
                       <dt className="uppercase tracking-[0.18em] text-umber-soft">RC Nº</dt>
                       <dd className="mt-1 break-all text-sm text-umber">{g.rcNumber}</dd>
