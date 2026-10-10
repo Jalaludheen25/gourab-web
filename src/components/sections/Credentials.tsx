@@ -105,7 +105,7 @@ export function Credentials({ index = "04" }: { index?: string }) {
           tone="sand"
           intro={
             <>
-              The facts behind the name — as recorded on our Dubai commercial licence and our group&apos;s Indian
+              The facts behind the name — as recorded on our Dubai commercial licence and our group&apos;s
               government registration.
             </>
           }

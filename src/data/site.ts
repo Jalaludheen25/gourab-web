@@ -35,7 +35,6 @@ export const site = {
   contact: {
     phones: [
       { label: "UAE", display: "+971 55 866 0118", href: "tel:+971558660118" },
-      { label: "India", display: "+91 993 383 4196", href: "tel:+919933834196" },
     ] satisfies ContactPhone[],
     emails: [
       { label: "General enquiries", address: "gb.gmdxb@gtsllcuae.com" },
@@ -71,7 +70,7 @@ export const site = {
     {
       name: "Gourab International Service",
       description:
-        "Recruiting agent registered with the Ministry of External Affairs, Government of India, through the eMigrate system.",
+        "Recruiting agent registered through the eMigrate system.",
       raId: "RA5695683",
       rcNumber: "B-1786/WB/PER/1000+/5/10077/2022",
       status: "Active",
