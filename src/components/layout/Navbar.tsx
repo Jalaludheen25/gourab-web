@@ -113,7 +113,7 @@ export function Navbar() {
             aria-label="Gourab Technical Services — home"
             className={cn(
               "relative z-10 block transition-[height] duration-700 ease-[var(--ease-expo)]",
-              scrolled ? "h-9 lg:h-10" : "h-10 lg:h-12",
+              scrolled ? "h-9 lg:h-10" : "h-11 lg:h-10",
             )}
             data-cursor="link"
           >
@@ -151,7 +151,7 @@ export function Navbar() {
 
           <div className="relative z-10 flex items-center gap-3">
             <div className="hidden lg:block">
-              <ButtonLink href="/contact" size="md" className="h-11">
+              <ButtonLink href="/contact" size="md" className="h-11 whitespace-nowrap">
                 Request a quote
               </ButtonLink>
             </div>

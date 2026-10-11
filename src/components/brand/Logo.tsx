@@ -1,17 +1,17 @@
 import Image from "next/image";
+import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 /**
  * Renders the supplied GTS artwork only — never re-drawn or re-typed.
- * Every variant is an exact crop of the original logo file:
- *  - "mark":      the GTS monogram with crane and swoosh
- *  - "lockup":    monogram beside the wordmark (the horizontal arrangement
- *                 used on the company letterhead)
- *  - "full":      the complete stacked logo with skyline
- *  - "wordmark":  GOURAB TECHNICAL / SERVICES LLC / Arabic name
+ * Every variant is an exact crop of reference/arabic.png, so the Arabic name
+ * keeps its original style, proportions and alignment:
+ *  - "lockup":   monogram beside the wordmark (header)
+ *  - "wordmark": GOURAB TECHNICAL / SERVICES LLC / Arabic name
+ *  - "stacked":  monogram above the wordmark, without the skyline (loader, curtain)
  */
 type LogoProps = {
-  variant?: "mark" | "lockup" | "full" | "wordmark";
+  variant?: "lockup" | "wordmark" | "stacked";
   className?: string;
   eager?: boolean;
 };
@@ -19,18 +19,17 @@ type LogoProps = {
 const ART = {
   mark: { src: "/brand/gts-mark.png", w: 900, h: 661 },
   wordmark: { src: "/brand/gts-wordmark.png", w: 1400, h: 395 },
-  compact: { src: "/brand/gts-wordmark-compact.png", w: 1400, h: 229 },
-  full: { src: "/brand/gts-logo-full.png", w: 1600, h: 1615 },
+  stacked: { src: "/brand/gts-logo-stacked.png", w: 1400, h: 1226 },
 } as const;
 
-const ALT = "Gourab Technical Services LLC — Dubai, United Arab Emirates";
+const ALT = `${site.legalName} — ${site.arabicName}`;
 
 export function Logo({ variant = "lockup", className, eager = false }: LogoProps) {
   const loading = eager ? "eager" : "lazy";
 
   if (variant === "lockup") {
     return (
-      <span className={cn("flex items-center gap-[0.7em]", className)}>
+      <span className={cn("flex h-full items-center gap-[0.4rem]", className)}>
         <Image
           src={ART.mark.src}
           width={ART.mark.w}
@@ -38,29 +37,24 @@ export function Logo({ variant = "lockup", className, eager = false }: LogoProps
           alt=""
           aria-hidden
           className="h-full w-auto"
-          sizes="96px"
+          sizes="80px"
           loading={loading}
         />
         <Image
-          src={ART.compact.src}
-          width={ART.compact.w}
-          height={ART.compact.h}
-          alt="Gourab Technical Services LLC"
-          className="h-[44%] w-auto"
-          sizes="220px"
+          src={ART.wordmark.src}
+          width={ART.wordmark.w}
+          height={ART.wordmark.h}
+          alt={ALT}
+          className="h-full w-auto"
+          sizes="200px"
           loading={loading}
         />
       </span>
     );
   }
 
-  const art = variant === "mark" ? ART.mark : variant === "full" ? ART.full : ART.wordmark;
-  const sizes =
-    variant === "mark"
-      ? "(min-width: 1024px) 240px, 160px"
-      : variant === "full"
-        ? "(min-width: 1024px) 420px, 70vw"
-        : "(min-width: 1024px) 560px, 85vw";
+  const art = variant === "stacked" ? ART.stacked : ART.wordmark;
+  const sizes = variant === "stacked" ? "(min-width: 1024px) 420px, 60vw" : "(min-width: 1024px) 560px, 85vw";
 
   return (
     <Image

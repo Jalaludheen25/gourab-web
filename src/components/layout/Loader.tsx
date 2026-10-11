@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { Logo } from "@/components/brand/Logo";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
 import { loadGsap } from "@/lib/gsap-lazy";
@@ -100,21 +100,12 @@ export function Loader() {
       style={{ clipPath: "inset(0% 0% 0% 0%)" }}
     >
       <div className="absolute inset-0 bg-blueprint opacity-50" />
-      <div ref={mark} className="relative w-[min(26vw,320px)]">
-        <Image
-          src="/brand/gts-mark.png"
-          alt=""
-          width={900}
-          height={661}
-          sizes="320px"
-          loading="eager"
-          className="h-auto w-full"
-        />
+      <div className="relative flex w-[min(44vw,420px)] flex-col items-center">
+        <div ref={mark} className="w-full">
+          <Logo variant="stacked" eager />
+        </div>
+        <span ref={line} className="bg-gold-sweep mt-[clamp(1.5rem,4vh,2.5rem)] block h-px w-full origin-center scale-x-0" />
       </div>
-      <span
-        ref={line}
-        className="bg-gold-sweep absolute left-0 right-0 top-1/2 mt-[min(13vw,160px)] h-px origin-center scale-x-0"
-      />
       <div
         ref={meta}
         className="eyebrow absolute inset-x-0 bottom-10 flex items-end justify-between px-[var(--spacing-gutter)] text-steel-500 opacity-0"

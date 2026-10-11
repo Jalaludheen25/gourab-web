@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
 import { mainNav } from "@/data/navigation";
+import { Logo } from "@/components/brand/Logo";
 import { loadGsap } from "@/lib/gsap-lazy";
 
 function labelFor(pathname: string): string {
@@ -125,7 +125,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       >
         <div className="absolute inset-0 bg-blueprint opacity-60" />
         <div className="relative flex flex-col items-center gap-6">
-          <Image src="/brand/gts-mark.png" alt="" width={900} height={661} className="h-auto w-24" sizes="96px" />
+          <Logo variant="stacked" className="w-44" />
           <span className="eyebrow text-steel-400" ref={label} />
         </div>
         <span ref={line} className="bg-gold-sweep absolute inset-x-0 bottom-0 h-px origin-left" />

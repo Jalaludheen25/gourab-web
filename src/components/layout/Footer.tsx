@@ -38,9 +38,6 @@ export function Footer() {
               <br />
               <span className="text-gold">Our Expertise.</span>
             </p>
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-steel-500" lang="ar" dir="rtl">
-              {site.arabicName}
-            </p>
           </div>
 
           <div className="col-span-6 sm:col-span-4 lg:col-span-2">
