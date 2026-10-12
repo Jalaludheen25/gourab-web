@@ -19,7 +19,7 @@ export function PeopleAndGroup({ index = "04" }: { index?: string }) {
           index={index}
           eyebrow="People & group"
           title="Owner-led, with a registered group company."
-          intro={`GTS is owned and managed by ${site.leadership[0].name}, with its head office in Dubai. Its group company, GTS International Service, is based in West Bengal, India.`}
+          intro={`GTS is owned and managed by ${site.leadership[0].name}, with its head office in Dubai. Its group company, ${site.group[0].name}, is based in West Bengal, India.`}
         />
 
         <div className="mt-16 grid grid-cols-12 gap-6">
