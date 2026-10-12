@@ -3,13 +3,13 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { ServicePanel } from "@/components/services/ServicePanel";
 import { media } from "@/data/media";
-import { services } from "@/data/services";
+import { capitalize, disciplineCount, services } from "@/data/services";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Services",
   description:
-    "Construction, fit-out, interiors and maintenance from Gourab Technical Services L.L.C — four disciplines delivered to a single standard in Dubai.",
+    "Construction, fit-out, interiors, maintenance, hospitality and cleaning from Gourab Technical Services L.L.C — six disciplines delivered to a single standard in Dubai.",
   path: "/services",
 });
 
@@ -18,7 +18,7 @@ export default function ServicesPage() {
     <>
       <PageHero
         eyebrow="Services"
-        title="Four disciplines. *One standard.*"
+        title={`${capitalize(disciplineCount)} disciplines. *One standard.*`}
         intro="From structure to finish to long-term care — every Gourab service is delivered with the same technical discipline and the same accountability."
         image={media.siteAerial}
         crumbs={[{ name: "Services", path: "/services" }]}

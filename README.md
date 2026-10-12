@@ -27,7 +27,7 @@ All company content lives in `src/data/`. **Only verified information from the c
 | File | What it holds |
 | --- | --- |
 | `site.ts` | Legal name, Arabic name, tagline, phones, emails, offices, licence numbers, leadership, group company. `whatsapp`, `hours` and `social` are empty until supplied. |
-| `services.ts` | The four services (Construction, Fit-Out, Interiors, Maintenance). `scope: []` is intentionally empty. Add confirmed scope items and the service page shows a *Scope* block. |
+| `services.ts` | The six services: the four from the brand material (Construction, Fit-Out, Interiors, Maintenance) plus Hospitality and Cleaning, added at the client's request. Copy that counts or lists services reads `disciplineCount` / `serviceList` from here. `scope: []` is intentionally empty. Add confirmed scope items and the service page shows a *Scope* block. |
 | `content.ts` | Brand statement, five-stage approach, differentiators, promise copy. |
 | `projects.ts` | **Empty.** The site shows an honest "portfolio in preparation" state. Add real projects (format documented in the file) and the home gallery, `/projects`, `/projects/[slug]` case studies and sitemap appear automatically. |
 | `testimonials.ts` | `testimonials` and `clients`, both **empty**. Their sections stay hidden until genuine entries are added. |
@@ -37,9 +37,9 @@ All company content lives in `src/data/`. **Only verified information from the c
 
 - GTS logo file (gold/silver, transparent): the master artwork. Every logo variant in `public/brand/` is an exact crop of it.
 - Company letterhead and business card: contact details.
-- Brand social post: the four services and the tagline.
+- Brand social post: the original four services and the tagline.
 - Dubai DET Commercial Licence 1655231: legal name, legal form, register, chamber number and owner/manager.
-- MEA eMigrate record: the group company, Gourab International Service (same owner).
+- MEA eMigrate record: the group company, Gourab International Service (same owner), and its West Bengal registered office (shown on the About page only).
 
 ### Not supplied yet (add when available)
 
@@ -97,4 +97,4 @@ src/lib/            gsap-lazy (on-demand GSAP), hooks, intro store, seo/JSON-LD,
 
 ## Pages
 
-`/`, `/about`, `/services`, `/services/[slug]` (4), `/projects`, `/projects/[slug]`, `/contact`, `/privacy`, `/credits`, plus a branded 404.
+`/`, `/about`, `/approach`, `/services`, `/services/[slug]` (6), `/projects`, `/projects/[slug]`, `/contact`, `/privacy`, `/credits`, plus a branded 404.

@@ -4,6 +4,7 @@ import { RevealText } from "@/components/ui/RevealText";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { promise } from "@/data/content";
 import { media } from "@/data/media";
+import { capitalize, disciplineCount, serviceList } from "@/data/services";
 import { site } from "@/data/site";
 
 /** Home "About" chapter — asymmetric editorial layout on sand */
@@ -33,11 +34,10 @@ export function AboutIntro() {
 
           <div className="mt-10 space-y-6 text-lead text-umber-soft">
             <p>
-              {site.legalName} is a Dubai-licensed company delivering construction, fit-out, interiors and
-              maintenance. We work from one idea: you bring the vision, we bring the expertise to realise it.
+              {site.legalName} is a Dubai-licensed company delivering {serviceList}. We work from one idea: you bring the vision, we bring the expertise to realise it.
             </p>
             <p>
-              Four disciplines under one roof means fewer handoffs, clearer accountability and a single standard
+              {capitalize(disciplineCount)} disciplines under one roof means fewer handoffs, clearer accountability and a single standard
               carried from structure to finish — and beyond, into the life of the building.
             </p>
           </div>

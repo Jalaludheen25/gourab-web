@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { ArrowLink } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { approach } from "@/data/content";
 import { useLazyGsap } from "@/lib/gsap-lazy";
@@ -18,7 +19,7 @@ function CropMarks() {
 }
 
 /** Five-stage method drawn as a technical dimension line */
-export function ProcessTimeline({ index = "03" }: { index?: string }) {
+export function ProcessTimeline({ index = "03", link = false }: { index?: string; link?: boolean }) {
   const root = useRef<HTMLElement>(null);
 
   useLazyGsap(
@@ -109,6 +110,12 @@ export function ProcessTimeline({ index = "03" }: { index?: string }) {
             ))}
           </ol>
         </div>
+
+        {link && (
+          <ArrowLink href="/approach" className="mt-16 text-steel-100">
+            Explore our approach
+          </ArrowLink>
+        )}
 
         <div aria-hidden className="eyebrow mt-20 flex flex-wrap justify-between gap-4 border-t border-white/[0.07] pt-5 text-[0.6rem] text-steel-500">
           <span>DWG — GTS / Method</span>

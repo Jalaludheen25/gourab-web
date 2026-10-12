@@ -85,8 +85,8 @@ export function FinalCTA({ image = media.dubaiAerialNight }: { image?: Media }) 
 
         <div className="mt-12 flex flex-col gap-10 border-t border-white/15 pt-8 lg:flex-row lg:items-end lg:justify-between">
           <p className="max-w-md text-lead text-steel-300">
-            Tell us about your vision — we&apos;ll bring the expertise. Construction, fit-out, interiors and
-            maintenance across Dubai and the UAE.
+            Tell us about your vision — we&apos;ll bring the expertise. From construction and fit-out to
+            hospitality and cleaning, across Dubai and the UAE.
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <ButtonLink href="/contact" size="lg">

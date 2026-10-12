@@ -19,7 +19,7 @@ export function PeopleAndGroup({ index = "04" }: { index?: string }) {
           index={index}
           eyebrow="People & group"
           title="Owner-led, with a registered group company."
-          intro={`Gourab is owned and managed by ${site.leadership[0].name}, with its head office in Dubai.`}
+          intro={`Gourab is owned and managed by ${site.leadership[0].name}, with its head office in Dubai. Its group company, ${site.group[0].name}, is based in West Bengal, India.`}
         />
 
         <div className="mt-16 grid grid-cols-12 gap-6">
@@ -62,6 +62,18 @@ export function PeopleAndGroup({ index = "04" }: { index?: string }) {
                   <dd className="mt-2 flex items-center gap-2 text-steel-200">
                     <span aria-hidden className="size-1.5 rounded-full bg-[#5fbf7f]" />
                     {g.status}
+                  </dd>
+                </div>
+                <div className="col-span-2 border-t border-white/10 pt-6">
+                  <dt className="uppercase tracking-[0.18em] text-steel-500">Registered office · West Bengal</dt>
+                  <dd className="mt-3">
+                    <address className="font-sans text-base not-italic leading-relaxed text-steel-200">
+                      {g.registeredOffice.map((line) => (
+                        <span key={line} className="block">
+                          {line}
+                        </span>
+                      ))}
+                    </address>
                   </dd>
                 </div>
               </dl>

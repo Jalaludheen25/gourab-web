@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Contact",
   description:
-    "Start a project with Gourab Technical Services L.L.C. Call +971 55 866 0118 or email gb.gmdxb@gtsllcuae.com — construction, fit-out, interiors and maintenance in Dubai.",
+    "Start a project with Gourab Technical Services L.L.C. Call +971 55 866 0118 or email gb.gmdxb@gtsllcuae.com — construction, fit-out, interiors, maintenance, hospitality and cleaning in Dubai.",
   path: "/contact",
 });
 
@@ -30,7 +30,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="Start a *project.*"
-        intro="Tell us about your vision — construction, fit-out, interiors or maintenance — and we'll bring the expertise."
+        intro="Tell us about your vision — from construction and fit-out to hospitality and cleaning — and we'll bring the expertise."
         crumbs={[{ name: "Contact", path: "/contact" }]}
         size="tight"
       />

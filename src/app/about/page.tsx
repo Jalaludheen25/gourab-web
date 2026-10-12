@@ -7,13 +7,14 @@ import { PageHero } from "@/components/sections/PageHero";
 import { ProcessTimeline } from "@/components/sections/ProcessTimeline";
 import { WhyGourab } from "@/components/sections/WhyGourab";
 import { media } from "@/data/media";
+import { serviceList } from "@/data/services";
 import { site } from "@/data/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "About",
   description:
-    "Gourab Technical Services L.L.C is a Dubai-licensed company delivering construction, fit-out, interiors and maintenance. Your Vision. Our Expertise.",
+    `Gourab Technical Services L.L.C is a Dubai-licensed company delivering ${serviceList}. Your Vision. Our Expertise.`,
   path: "/about",
 });
 
@@ -23,7 +24,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About Gourab"
         title="Your vision. *Our expertise.*"
-        intro={`${site.legalName} is a Dubai-licensed technical services company — one partner for construction, fit-out, interiors and maintenance.`}
+        intro={`${site.legalName} is a Dubai-licensed technical services company — one partner for ${serviceList}.`}
         image={media.glassTowers}
         crumbs={[{ name: "About", path: "/about" }]}
         aside={
@@ -41,7 +42,7 @@ export default function AboutPage() {
       />
       <AboutStory />
       <Vision index="02" />
-      <ProcessTimeline index="03" />
+      <ProcessTimeline index="03" link />
       <Credentials index="04" />
       <PeopleAndGroup index="05" />
       <WhyGourab index="06" />

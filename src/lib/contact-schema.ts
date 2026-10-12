@@ -5,6 +5,8 @@ export const projectTypes = [
   "Fit-Out",
   "Interiors",
   "Maintenance",
+  "Hospitality",
+  "Cleaning",
   "Other / not sure yet",
 ] as const;
 

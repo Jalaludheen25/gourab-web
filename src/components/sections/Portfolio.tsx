@@ -18,7 +18,7 @@ export function Portfolio({ index = "06" }: { index?: string }) {
           title={hasProjects ? "Selected work." : "Selected work, documented properly."}
           intro={
             hasProjects
-              ? "A selection of projects delivered by Gourab across construction, fit-out, interiors and maintenance."
+              ? "A selection of projects delivered by Gourab across construction, fit-out, interiors, maintenance, hospitality and cleaning."
               : "Real projects only. Our portfolio will appear here as each case study is approved for publication."
           }
         />

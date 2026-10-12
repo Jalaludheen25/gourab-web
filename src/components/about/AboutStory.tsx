@@ -3,7 +3,7 @@ import { RevealText } from "@/components/ui/RevealText";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { promise } from "@/data/content";
 import { media } from "@/data/media";
-import { services } from "@/data/services";
+import { disciplineCount, serviceList } from "@/data/services";
 import { site } from "@/data/site";
 
 export function AboutStory() {
@@ -30,7 +30,7 @@ export function AboutStory() {
             Tourism and registered with the Dubai Chamber. Our head office is in Dubai.
           </p>
           <p>
-            We bring four disciplines together — {services.map((s) => s.name.toLowerCase()).join(", ").replace(/, ([^,]*)$/, " and $1")} — so
+            We bring {disciplineCount} disciplines together — {serviceList} — so
             the people who build a space understand how it will be finished, used and maintained.
           </p>
           <p>

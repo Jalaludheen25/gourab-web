@@ -7,7 +7,7 @@ export type Media = {
   position?: string;
 };
 
-export type ServiceSlug = "construction" | "fit-out" | "interiors" | "maintenance";
+export type ServiceSlug = "construction" | "fit-out" | "interiors" | "maintenance" | "hospitality" | "cleaning";
 
 export type Service = {
   slug: ServiceSlug;

@@ -119,7 +119,7 @@ export function Hero() {
             data-hero-fade
             className="text-lead text-steel-300 max-lg:animate-rise max-lg:[animation-delay:220ms] max-sm:min-h-[4lh]"
           >
-            Construction, fit-out, interiors and maintenance — delivered from Dubai with technical precision and a
+            From construction to cleaning — six disciplines delivered from Dubai with technical precision and a
             single standard of work.
           </p>
           <div
@@ -137,7 +137,7 @@ export function Hero() {
         </div>
 
         {/* Index bar */}
-        <div className="mt-12 grid grid-cols-2 border-t border-white/10 sm:grid-cols-4 lg:mt-16 lg:grid-cols-[repeat(4,minmax(0,1fr))_auto]">
+        <div className="mt-12 grid grid-cols-2 border-t border-white/10 sm:grid-cols-3 lg:mt-16 lg:grid-cols-6 xl:grid-cols-[repeat(6,minmax(0,1fr))_auto]">
           {services.map((s) => (
             <Link
               key={s.slug}
@@ -157,7 +157,7 @@ export function Hero() {
           <div
             data-intro
             data-hero-meta
-            className="col-span-2 hidden items-center gap-6 py-4 sm:col-span-4 lg:col-span-1 lg:flex"
+            className="hidden items-center gap-6 py-4 xl:flex"
           >
             <span className="eyebrow text-steel-500">{site.location.coordinates.display}</span>
             <span className="flex items-center gap-3">

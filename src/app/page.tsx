@@ -33,7 +33,7 @@ export default function HomePage() {
         <ServicesShowcase />
       </Hydrate>
       <Hydrate offscreen>
-        <ProcessTimeline index="03" />
+        <ProcessTimeline index="03" link />
       </Hydrate>
       <Hydrate offscreen>
         <Credentials index="04" />

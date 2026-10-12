@@ -49,6 +49,8 @@ export const metadata: Metadata = {
     "fit-out Dubai",
     "interiors Dubai",
     "maintenance Dubai",
+    "hospitality Dubai",
+    "cleaning services Dubai",
     "technical services UAE",
   ],
   alternates: { canonical: "/" },

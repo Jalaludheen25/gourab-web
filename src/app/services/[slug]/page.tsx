@@ -136,7 +136,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             <h2 id="deliver-title" className="mt-6 text-headline font-semibold text-steel-50 text-balance">
               How we deliver {service.name.toLowerCase()}.
             </h2>
-            <ArrowLink href="/about#approach" className="mt-10 text-steel-100">
+            <ArrowLink href="/approach" className="mt-10 text-steel-100">
               Our full approach
             </ArrowLink>
           </div>

@@ -21,7 +21,7 @@ export const site = {
   tagline: "Your Vision. Our Expertise.",
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.gtsllcuae.com").replace(/\/$/, ""),
   description:
-    "Gourab Technical Services L.L.C is a Dubai-licensed company delivering construction, fit-out, interiors and maintenance across the United Arab Emirates. Your Vision. Our Expertise.",
+    "Gourab Technical Services L.L.C is a Dubai-licensed company delivering construction, fit-out, interiors, maintenance, hospitality and cleaning across the United Arab Emirates. Your Vision. Our Expertise.",
 
   location: {
     city: "Dubai",
@@ -73,6 +73,8 @@ export const site = {
         "Recruiting agent registered through the eMigrate system.",
       raId: "RA5695683",
       rcNumber: "B-1786/WB/PER/1000+/5/10077/2022",
+      /** Registered office exactly as listed on the MEA eMigrate record — shown on the About page only */
+      registeredOffice: ["Vill. Bagula College Para", "Post Bagula, PS Hanskhali", "District Nadia, West Bengal 741502", "India"],
       status: "Active",
     },
   ],

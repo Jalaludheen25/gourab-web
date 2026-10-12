@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import { ArrowLink } from "@/components/ui/Button";
 import { RevealImage } from "@/components/ui/RevealImage";
 import { Eyebrow } from "@/components/ui/SectionHeading";
-import { services } from "@/data/services";
+import { capitalize, disciplineCount, services } from "@/data/services";
 import { DESKTOP_MOTION, useLazyGsap } from "@/lib/gsap-lazy";
 import { cn } from "@/lib/utils";
 
@@ -65,7 +65,7 @@ export function ServicesShowcase() {
           <div className="col-span-12 flex flex-col lg:col-span-6">
             <Eyebrow index="02">Services</Eyebrow>
             <h2 id="services-title" className="mt-7 text-headline font-semibold text-steel-50 text-balance">
-              Four disciplines.
+              {capitalize(disciplineCount)} disciplines.
               <br />
               <span className="font-serif font-normal italic text-steel-400">One standard.</span>
             </h2>
@@ -97,7 +97,7 @@ export function ServicesShowcase() {
                     </span>
                     <span
                       className={cn(
-                        "text-[clamp(2.5rem,5.4vw,6.25rem)] font-semibold leading-[0.95] tracking-[-0.05em] transition-colors duration-500",
+                        "text-[clamp(2.25rem,min(4.2vw,7vh),5rem)] font-semibold leading-[0.95] tracking-[-0.05em] transition-colors duration-500",
                         active === i ? "text-steel-50" : "text-steel-50 lg:text-steel-600 lg:group-hover:text-steel-400",
                       )}
                     >

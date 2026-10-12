@@ -2,8 +2,9 @@ import { media } from "./media";
 import type { Service, ServiceSlug } from "./types";
 
 /**
- * Gourab's four service lines, as listed on the company's brand material:
- * CONSTRUCTION | FIT-OUT | MAINTENANCE | INTERIORS.
+ * Gourab's service lines: the four on the company's brand material
+ * (CONSTRUCTION | FIT-OUT | MAINTENANCE | INTERIORS), plus Hospitality and
+ * Cleaning, added at Gourab's request.
  *
  * Copy describes each discipline in general terms only. `scope` is left
  * empty on purpose — add the specific works Gourab confirms and the service
@@ -70,6 +71,36 @@ export const services: Service[] = [
     details: [media.toolWall, media.scaffoldWorker],
     scope: [],
   },
+  {
+    slug: "hospitality",
+    index: "05",
+    name: "Hospitality",
+    headline: "Spaces made ready for guests.",
+    summary:
+      "Hospitality work for hotels, restaurants and guest-facing venues — spaces prepared, presented and kept to the standard guests notice.",
+    intro: [
+      "Hospitality spaces are judged in moments — the first step into a lobby, a table by the window, a room at the end of a long day. Every detail is noticed.",
+      "We bring the same technical discipline to guest-facing spaces as to everything else we do, so they look the way they were intended and stay ready for the people who use them.",
+    ],
+    image: media.restaurantDusk,
+    details: [media.entranceHall, media.wineGlasses],
+    scope: [],
+  },
+  {
+    slug: "cleaning",
+    index: "06",
+    name: "Cleaning",
+    headline: "Clean spaces, properly kept.",
+    summary:
+      "Cleaning for homes, workplaces and commercial buildings — careful, thorough and planned around how each space is used.",
+    intro: [
+      "A clean space is the clearest sign that a building is cared for. It protects finishes and materials, and makes every space more pleasant to use.",
+      "We approach cleaning with the same planning as our technical work — understanding the space, its materials and the routine it needs, then delivering it consistently.",
+    ],
+    image: media.windowCleanersTower,
+    details: [media.ropeAccessCleaning, media.windowCleanersFacade],
+    scope: [],
+  },
 ];
 
 export const serviceSlugs = services.map((s) => s.slug);
@@ -82,3 +113,16 @@ export function getAdjacentService(slug: ServiceSlug): Service {
   const i = services.findIndex((s) => s.slug === slug);
   return services[(i + 1) % services.length];
 }
+
+const numberWords = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+
+/** The number of services as a word ("six"), so copy stays in step with the list */
+export const disciplineCount = numberWords[services.length] ?? String(services.length);
+
+/** "construction, fit-out, interiors, maintenance, hospitality and cleaning" */
+export const serviceList = services
+  .map((s) => s.name.toLowerCase())
+  .join(", ")
+  .replace(/, ([^,]*)$/, " and $1");
+
+export const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);

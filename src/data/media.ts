@@ -7,6 +7,7 @@ import dubaiBlueHour from "@/assets/images/dubai-blue-hour.jpg";
 import dubaiFromAbove from "@/assets/images/dubai-from-above.jpg";
 import dubaiNightTower from "@/assets/images/dubai-night-tower.jpg";
 import dubaiNightWater from "@/assets/images/dubai-night-water.jpg";
+import entranceHall from "@/assets/images/entrance-hall.jpg";
 import glassFacadeSky from "@/assets/images/glass-facade-sky.jpg";
 import glassTowerUp from "@/assets/images/glass-tower-up.jpg";
 import glassTowers from "@/assets/images/glass-towers.jpg";
@@ -14,6 +15,8 @@ import kitchenInterior from "@/assets/images/kitchen-interior.jpg";
 import loftInterior from "@/assets/images/loft-interior.jpg";
 import marbleLobby from "@/assets/images/marble-lobby.jpg";
 import rebarWorker from "@/assets/images/rebar-worker.jpg";
+import restaurantDusk from "@/assets/images/restaurant-dusk.jpg";
+import ropeAccessCleaning from "@/assets/images/rope-access-cleaning.jpg";
 import scaffoldWorker from "@/assets/images/scaffold-worker.jpg";
 import siteAerial from "@/assets/images/site-aerial.jpg";
 import spanners from "@/assets/images/spanners.jpg";
@@ -21,6 +24,9 @@ import spiralStair from "@/assets/images/spiral-stair.jpg";
 import steelTubes from "@/assets/images/steel-tubes.jpg";
 import toolWall from "@/assets/images/tool-wall.jpg";
 import whiteStair from "@/assets/images/white-stair.jpg";
+import windowCleanersFacade from "@/assets/images/window-cleaners-facade.jpg";
+import windowCleanersTower from "@/assets/images/window-cleaners-tower.jpg";
+import wineGlasses from "@/assets/images/wine-glasses.jpg";
 import type { Media } from "./types";
 
 /**
@@ -147,6 +153,36 @@ export const media = {
     alt: "Corner of a dark brick and glass building seen from below",
     position: "50% 40%",
   },
+  restaurantDusk: {
+    src: restaurantDusk,
+    alt: "Restaurant dining room at dusk, guests seated by tall windows with the city beyond",
+    position: "55% 50%",
+  },
+  wineGlasses: {
+    src: wineGlasses,
+    alt: "A row of glasses on a bar counter in warm, low light",
+    position: "35% 50%",
+  },
+  entranceHall: {
+    src: entranceHall,
+    alt: "Grand entrance hall with a red carpet, brass balustrades and arched windows",
+    position: "50% 40%",
+  },
+  windowCleanersTower: {
+    src: windowCleanersTower,
+    alt: "Rope-access window cleaners working on the glass facade of a tower",
+    position: "50% 45%",
+  },
+  ropeAccessCleaning: {
+    src: ropeAccessCleaning,
+    alt: "A window cleaner on ropes cleaning the glazing of a residential tower",
+    position: "55% 50%",
+  },
+  windowCleanersFacade: {
+    src: windowCleanersFacade,
+    alt: "Two harnessed window cleaners working across a building facade",
+    position: "45% 45%",
+  },
 } satisfies Record<string, Media>;
 
 export type MediaKey = keyof typeof media;
@@ -181,4 +217,10 @@ export const imageCredits: {
   { key: "spiralStair", title: "Spiral staircase", author: "chuttersnap", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:Spiral_staircase_(Unsplash).jpg" },
   { key: "whiteStair", title: "White staircase", author: "Todd Quackenbush", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:White_staircase_(Unsplash).jpg" },
   { key: "darkBuilding", title: "Hell's Kitchen, New York", author: "Ari Crespo", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:Hell%27s_Kitchen,_New_York,_United_States_(Unsplash).jpg" },
+  { key: "restaurantDusk", title: "Restaurant at dusk", author: "Patryk Sobczak", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:Restaurant_at_dusk_(Unsplash).jpg" },
+  { key: "wineGlasses", title: "Row of wine glasses in close-up", author: "Henry Fournier", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:Row_of_wine_glasses_in_close-up_(Unsplash).jpg" },
+  { key: "entranceHall", title: "Elegant entrance hall", author: "Crew", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:Elegant_entrance_hall_(Unsplash).jpg" },
+  { key: "windowCleanersTower", title: "Harnessed Window Cleaners on Millennium Point, Battery Park", author: "Julian Lupyan", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:Harnessed_Window_Cleaners_on_Millennium_Point,_Battery_Park.jpg" },
+  { key: "ropeAccessCleaning", title: "Rapel, Clean, Repeat.", author: "Adam Birkett", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:Rapel,_Clean,_Repeat._(Unsplash).jpg" },
+  { key: "windowCleanersFacade", title: "Window cleaners on a building", author: "Samuel Zeller", license: "CC0", source: "https://commons.wikimedia.org/wiki/File:Window_cleaners_on_a_building_(Unsplash).jpg" },
 ];

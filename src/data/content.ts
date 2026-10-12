@@ -2,13 +2,13 @@ import type { Differentiator, ProcessStep } from "./types";
 
 /**
  * Editorial copy shared across pages. Written from Gourab's verified
- * positioning ("Your Vision. Our Expertise."), its four disciplines and its
+ * positioning ("Your Vision. Our Expertise."), its service disciplines and its
  * licensing — no statistics, awards or claims beyond the supplied materials.
  */
 
 /** Words wrapped in *asterisks* are set in the italic serif accent */
 export const brandStatement =
-  "Every space begins as someone's *vision.* Gourab brings the technical *expertise* to build it, fit it out, finish it and keep it performing — one Dubai company, four disciplines, a single standard of work.";
+  "Every space begins as someone's *vision.* Gourab brings the technical *expertise* to build it, fit it out, finish it and keep it performing — one Dubai company, six disciplines, a single standard of work.";
 
 export const approach: ProcessStep[] = [
   {
@@ -38,10 +38,13 @@ export const approach: ProcessStep[] = [
   },
 ];
 
+/** Anchor id for a stage on the Approach page, e.g. "stage-brief" */
+export const stageId = (title: string) => `stage-${title.toLowerCase()}`;
+
 export const differentiators: Differentiator[] = [
   {
     title: "One partner",
-    body: "Construction, fit-out, interiors and maintenance under one licensed company — fewer handoffs and a single point of accountability.",
+    body: "Six disciplines, from construction to cleaning, under one licensed company — fewer handoffs and a single point of accountability.",
   },
   {
     title: "Precision",
@@ -85,7 +88,7 @@ export const vision = {
     },
     {
       title: "Growth with purpose",
-      body: "Developing our four disciplines deliberately, never at the cost of the precision our name promises.",
+      body: "Developing our six disciplines deliberately, never at the cost of the precision our name promises.",
     },
   ],
 };

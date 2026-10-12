@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Projects",
   description:
-    "Project case studies from Gourab Technical Services L.L.C — construction, fit-out, interiors and maintenance in Dubai.",
+    "Project case studies from Gourab Technical Services L.L.C — construction, fit-out, interiors, maintenance, hospitality and cleaning in Dubai.",
   path: "/projects",
 });
 
@@ -23,8 +23,8 @@ export default function ProjectsPage() {
         title={hasProjects ? "Work that *speaks.*" : "Real work, *properly documented.*"}
         intro={
           hasProjects
-            ? "Selected projects across construction, fit-out, interiors and maintenance."
-            : "We only publish genuine Gourab projects. Case studies will appear here as they are approved for release."
+            ? "Selected projects across construction, fit-out, interiors, maintenance, hospitality and cleaning."
+            : "We only publish genuine GTS projects. Case studies will appear here as they are approved for release."
         }
         image={media.cranesDusk}
         crumbs={[{ name: "Projects", path: "/projects" }]}
