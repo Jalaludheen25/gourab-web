@@ -39,7 +39,7 @@ All company content lives in `src/data/`. **Only verified information from the c
 - Company letterhead and business card: contact details.
 - Brand social post: the original four services and the tagline.
 - Dubai DET Commercial Licence 1655231: legal name, legal form, register, chamber number and owner/manager.
-- MEA eMigrate record: the group company, Gourab International Service (same owner), and its West Bengal registered office (shown on the About page only).
+- MEA eMigrate record: the group company, Gourab International Service (same owner), and its registered office location, West Bengal, Nadia, India (shown on the About page only).
 
 ### Not supplied yet (add when available)
 

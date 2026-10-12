@@ -73,8 +73,8 @@ export const site = {
         "Recruiting agent registered through the eMigrate system.",
       raId: "RA5695683",
       rcNumber: "B-1786/WB/PER/1000+/5/10077/2022",
-      /** Registered office exactly as listed on the MEA eMigrate record — shown on the About page only */
-      registeredOffice: ["Vill. Bagula College Para", "Post Bagula, PS Hanskhali", "District Nadia, West Bengal 741502", "India"],
+      /** Registered office location — shown on the About page only */
+      registeredOffice: ["West Bengal, Nadia, India"],
       status: "Active",
     },
   ],
