@@ -36,7 +36,7 @@ export function WhyGourab({ index = "05" }: { index?: string }) {
           index={index}
           eyebrow="Why Gourab"
           title="What the name stands for."
-          intro="Four reasons clients can hold us to — each grounded in how Gourab is set up, not in slogans."
+          intro="Four reasons clients can hold us to — each grounded in how GTS is set up, not in slogans."
         />
 
         <ul className="mt-16 border-t border-white/10 lg:mt-24">

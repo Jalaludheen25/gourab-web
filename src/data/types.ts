@@ -85,3 +85,10 @@ export type Office = {
   /** Full street address — add when supplied */
   address?: string;
 };
+
+export type TeamMember = {
+  name: string;
+  role: string;
+  /** 4:5 portrait */
+  photo: Media;
+};

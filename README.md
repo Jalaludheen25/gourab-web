@@ -26,7 +26,8 @@ All company content lives in `src/data/`. **Only verified information from the c
 
 | File | What it holds |
 | --- | --- |
-| `site.ts` | Legal name, Arabic name, tagline, phones, emails, offices, licence numbers, leadership, group company. `whatsapp`, `hours` and `social` are empty until supplied. |
+| `site.ts` | Legal name, Arabic name, tagline, phones, emails, offices, licence numbers, group company. `whatsapp`, `hours` and `social` are empty until supplied. |
+| `team.ts` | Leadership team shown on the About page: name, designation and a 4:5 portrait (`src/assets/images/team/`, cropped from the photos in `reference/`). |
 | `services.ts` | The six services: the four from the brand material (Construction, Fit-Out, Interiors, Maintenance) plus Hospitality and Cleaning, added at the client's request. Copy that counts or lists services reads `disciplineCount` / `serviceList` from here. `scope: []` is intentionally empty. Add confirmed scope items and the service page shows a *Scope* block. |
 | `content.ts` | Brand statement, five-stage approach, differentiators, promise copy. |
 | `projects.ts` | **Empty.** The site shows an honest "portfolio in preparation" state. Add real projects (format documented in the file) and the home gallery, `/projects`, `/projects/[slug]` case studies and sitemap appear automatically. |

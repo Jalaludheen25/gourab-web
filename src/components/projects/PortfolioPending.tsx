@@ -30,7 +30,7 @@ export function PortfolioPending({ sheet = "06" }: { sheet?: string }) {
           </h3>
           <p className="mt-6 max-w-xl text-lead text-steel-400">
             We&apos;re preparing our project portfolio with the detail it deserves. Each case study will be published
-            here once it&apos;s approved for release. Until then, the best way to see what Gourab can do is to talk
+            here once it&apos;s approved for release. Until then, the best way to see what GTS can do is to talk
             to us about your project.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">

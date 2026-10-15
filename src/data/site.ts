@@ -63,8 +63,6 @@ export const site = {
     legalType: "Limited Liability Company — Single Owner",
   },
 
-  leadership: [{ name: "Goutam Biswas", role: "Owner & Manager" }],
-
   /** Associated entity — same owner, from the MEA eMigrate record */
   group: [
     {
